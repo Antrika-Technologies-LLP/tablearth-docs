@@ -52,6 +52,9 @@ Request these by name in `chartTypes`.
 | `pivot_table` | `rowKeys[]`, `columnKeys[]`, `metrics[]` (`{ key, label, format }`) | long: one per (row values, column values) group | a cross-tab: `rowKeys` as row headers, `columnKeys` across the top, each metric summed in the cells (`aggregate` may be `avg`, `count`, `min` or `max`), with row and column totals |
 | `time_table` | `rowKey`, `xKey`, `valueKey` | long: one per (entity, period) | one row per entity: its latest value, a sparkline, the change against `compareLag` periods back (default 1) and the average |
 | `bubble` | `xKey`, `yKey`, `sizeKey`, `labelKey` (optional), `seriesKey` (optional) | one per entity | points at (x, y) whose area grows with `sizeKey`, coloured by `seriesKey` |
+| `sunburst` | `levels[]` (column names, top level first), `valueKey` | long: one per leaf | rings: the first level innermost, each ring split by the next level |
+| `graph` | `sourceKey`, `targetKey`, `valueKey` (optional) | one per link | a network: nodes sized by their total weight, links between them |
+| `radar` | `labelKey`, `metrics[]` (`{ key, label }`) | one per entity, 3–8 metrics | one shape per row across one axis per metric |
 
 These are dashboard-only:
 
@@ -62,6 +65,19 @@ These are dashboard-only:
 | `bullet` | `labelKey`, `valueKey`, `targetKey` (or a fixed `target`) | one per bar | a bar against its target, over bands at the `ranges` percentages of the target (default 50, 80, 100) |
 | `rose` | `labelKey`, `valueKey` | one per category | a Nightingale rose: a pie whose petals grow with the value (`roseType` `radius` or `area`) |
 | `text` | none; `template` holds Markdown | none, or any | the Markdown, where `{{column}}` is the first row's value and `{{#rows}}…{{/rows}}` repeats once per row; render it without raw HTML |
+| `histogram` | the widget data holds `bin_start`, `bin_end`, `count` (+ `seriesKey`) | one per bin | bars over the bins |
+| `box_plot` | the widget data holds `low`, `q1`, `median`, `q3`, `high`, `outliers` per group | one per group | a box per group with its outliers |
+| `ttest_table` | the widget data holds `metric`, the group, `mean`, `lift_pct`, `p_value`, `significant`, `control` | one per group per metric | a table of each group against the control |
+| `icicle` | `levels[]`, `valueKey` | long: one per leaf | nested bands, one per level |
+| `chord` | `sourceKey`, `targetKey`, `valueKey` | one per link | ribbons between entities around a circle |
+| `tree` | `idKey`, `parentKey`, `labelKey` (optional), `valueKey` (optional) | one per node | a parent–child tree; a node with an empty parent is a root |
+| `parallel` | `metrics[]`, `labelKey` (optional), `colorKey` (optional) | one per entity | one line per row across parallel axes |
+| `word_cloud` | `labelKey`, `valueKey` | one per word | words sized by weight |
+| `calendar` | `xKey` (a date), `valueKey` | one per day | a calendar grid coloured by value |
+| `horizon` | `xKey`, `seriesKey`, `valueKey` | long: one per (x, series) | a compact band row per series |
+| `gantt` | `labelKey`, `startKey`, `endKey`, `seriesKey` (optional) | one per bar | bars from start to end on a time axis |
+
+`treemap` also accepts `levels[]` instead of `labelKey` for a nested treemap.
 
 ## Display options
 

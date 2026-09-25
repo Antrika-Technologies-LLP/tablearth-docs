@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### 2026-09-26 — Distribution, hierarchy and flow charts
+
+- **New chart types:** `sunburst`, `graph` and `radar` (chat and dashboards);
+  `histogram`, `box_plot`, `ttest_table`, `icicle`, `chord`, `tree`,
+  `parallel`, `word_cloud`, `calendar`, `horizon` and `gantt` (dashboards);
+  nested `treemap` with `levels[]`.
+- **Server statistics:** histogram, box-plot and t-test widgets arrive already
+  aggregated in the widget data.
+
 ### 2026-09-26 — Bubble and rose charts, display options
 
 - **New chart types:** `bubble` (chat and dashboards) and `rose` (dashboards),
