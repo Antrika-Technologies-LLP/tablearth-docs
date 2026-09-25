@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### 2026-09-26 — Maps
+
+- **New chart types:** `world_map` and `country_map` (chat and dashboards);
+  `chart_map`, `point_map`, `density_map`, `grid_map`, `hex_map`,
+  `contour_map`, `arc_map`, `path_map`, `polygon_map`, `geojson_map` and
+  `layers_map` (dashboards), in the
+  [chart types](docs/api/chart-types.md#maps) reference.
+- **Basemap choice:** a map's `basemap` option can turn tiles off (`none`), so
+  no tile request leaves the viewer's browser.
+
 ### 2026-09-26 — Distribution, hierarchy and flow charts
 
 - **New chart types:** `sunburst`, `graph` and `radar` (chat and dashboards);
