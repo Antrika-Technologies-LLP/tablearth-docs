@@ -79,6 +79,34 @@ These are dashboard-only:
 
 `treemap` also accepts `levels[]` instead of `labelKey` for a nested treemap.
 
+## Maps
+
+Request map types by name in `chartTypes`. `world_map` and `country_map` also
+appear in chat answers; the others are dashboard-only.
+
+| `type` | Keys | Rows | Draw it as |
+|---|---|---|---|
+| `world_map` | `regionKey` (a country name or ISO-2/ISO-3 code), `valueKey`, `sizeKey` (optional) | one per country | countries coloured by value, with bubbles sized by `sizeKey` |
+| `country_map` | `regionKey` (an ISO 3166-2 code such as `IN-KA`, or a region name with the `country` option), `valueKey` | one per state or province | one country's regions coloured by value |
+| `chart_map` | `regionKey`, or `latKey` + `lonKey`; `seriesKey`, `valueKey` | long: one per (place, slice) | a small pie per place |
+| `point_map` | `latKey`, `lonKey`; `sizeKey`, `colorKey`, `labelKey` (optional) | one per place | points on a basemap; `cluster: true` merges nearby points into counted bubbles |
+| `density_map` | `latKey`, `lonKey`, `weightKey` (optional) | one per event | a heat map (`style: "heat"`) or square screen cells (`"screen_grid"`) |
+| `grid_map`, `hex_map` | `latKey`, `lonKey`, `weightKey` (optional) | one per event | events summed into square or hexagonal cells (`cellSize` in metres); `hex_map` draws 3D columns |
+| `contour_map` | `latKey`, `lonKey`, `weightKey` (optional) | one per event | density contour bands (`bands`, default 5) |
+| `arc_map` | `fromLatKey`, `fromLonKey`, `toLatKey`, `toLonKey`, or `sourceKey` + `targetKey` holding countries; `valueKey` (optional) | one per (origin, destination) | arcs between places, as wide as `valueKey` |
+| `path_map` | `geometryKey`: a GeoJSON LineString, WKT `LINESTRING` or encoded polyline | one per route | lines |
+| `polygon_map` | `geometryKey`: a GeoJSON Polygon/MultiPolygon or WKT `POLYGON`; `valueKey` (optional) | one per area | areas coloured by value; `extruded: true` raises them |
+| `geojson_map` | `geometryKey`: any GeoJSON geometry or Feature | one per shape | points, lines and areas |
+| `layers_map` | none; `layers` lists the ids of other map widgets on the dashboard | none | those map widgets drawn together on one basemap, the first at the bottom |
+
+Latitude and longitude are decimal degrees. Point maps (`point_map` through
+`contour_map`) hold up to 50,000 rows, shape maps up to 5,000.
+
+**Basemap.** Maps on a basemap may carry `basemap`: `auto` (light or dark with
+the page), `light`, `dark`, `streets` or `none`. tableArth.ai's own views load
+the tiled basemaps from OpenFreeMap (OpenStreetMap data) in the viewer's
+browser; with `none` they draw country outlines only and request no tiles.
+
 ## Display options
 
 Dashboard widgets may carry display options next to their keys. Draw what you
@@ -115,3 +143,7 @@ optional `config` carries `columns` (`[{ key, label, format, hidden }]`) and
   case: some databases return column names in upper case.
 - **Only one table shows** — your client didn't list `pivot_table`, so it gets
   the single `table` slot. List it once you render tables from `charts`.
+- **A map shows no points** — the latitude and longitude columns hold text or
+  are swapped: latitude runs from −90 to 90, longitude from −180 to 180.
+- **A layered map is empty** — the map widgets its `layers` named were removed
+  from the dashboard.
