@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### 2026-09-26 — Chart types beyond the base set
+
+- **New `chartTypes` request field** on chat, widget chat and the dashboard-spec
+  routes. Clients list the chart types they draw; without it they keep receiving
+  only the base set.
+- **Waterfall and Sankey** charts, with their column keys, in the new
+  [chart types](docs/api/chart-types.md) reference.
+- **`chartData` example corrected:** it is an array of row objects, not
+  `{ x: [...], y: [...] }`.
+
 ### 2026-06-15 — Accuracy pass against shipped code
 
 - **Rebrand:** product is now **tableArth.ai** throughout (HTTP paths keep the

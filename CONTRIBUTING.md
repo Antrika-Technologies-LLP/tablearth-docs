@@ -23,6 +23,7 @@ docs/
 │   └── api.md
 ├── api/
 │   ├── auth.md
+│   ├── chart-types.md
 │   ├── endpoints.md
 │   └── sse-protocol.md
 ├── admin/

@@ -139,14 +139,17 @@ The `CHART` event's `data` object carries two JSON-encoded strings:
 
 ```jsonc
 {
-  "chartConfig": "{ \"type\": \"bar\", \"title\": \"Hours by employee\", … }",
-  "chartData":   "{ \"x\": [\"Alice\",\"Bob\"], \"y\": [8,9], … }"
+  "chartConfig": "{ \"type\": \"bar\", \"title\": \"Hours by employee\", \"xKey\": \"employee\", \"yKey\": \"hours\" }",
+  "chartData":   "[ { \"employee\": \"Alice\", \"hours\": 8 }, { \"employee\": \"Bob\", \"hours\": 9 } ]"
 }
 ```
 
-Parse both before rendering. `chartConfig` holds the chart type and presentation
-hints; `chartData` holds the series. Defensive renderers fall back to a data table
-when a shape is unknown.
+Parse both before rendering. `chartData` is an array of row objects, one per
+result row. `chartConfig` holds the chart `type`, an optional `title`, and the keys
+that name which row column plays which role (`xKey`, `yKey`, `seriesKey`, …).
+Which types you can receive, and each type's keys, are listed in
+[chart-types.md](chart-types.md). Defensive renderers fall back to a data table
+when a type is unknown.
 
 ## Why not WebSockets?
 
