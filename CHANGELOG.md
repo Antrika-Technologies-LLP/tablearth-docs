@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### 2026-09-26 — KPI and table chart types
+
+- **New chart types:** `pivot_table` and `time_table` (chat and dashboards),
+  `kpi_trend`, `kpi_compare`, `bullet` and `text` (dashboards), each with its
+  column keys in the [chart types](docs/api/chart-types.md) reference.
+- **Several tables per dashboard** for clients that list `pivot_table`; other
+  clients keep the single `table`.
+- **Server-side table sort, search and totals:** the widget-data routes accept
+  `sortKey`, `sortDir`, `search`, `searchColumns` and `totals`, and return
+  `totals`, `compareData` and `compareLabel`.
+- **Dashboard spec example corrected:** widgets sit under `dashboard`, and a
+  single table under `table`, not `tables`.
+
 ### 2026-09-26 — Chart types beyond the base set
 
 - **New `chartTypes` request field** on chat, widget chat and the dashboard-spec
