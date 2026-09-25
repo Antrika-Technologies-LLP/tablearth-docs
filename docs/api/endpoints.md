@@ -236,7 +236,9 @@ The widget has its **own** dashboard routes (distinct from `/api/dashboard/*`):
 
 - `GET  /emp/1/api/tableai/widget/dashboard/spec` — `sessionId` via header;
   optional `chartTypes`, comma-separated (see [chart-types.md](chart-types.md)).
-- `POST /emp/1/api/tableai/widget/dashboard/widget/data` — body wrapped in `data`.
+- `POST /emp/1/api/tableai/widget/dashboard/widget/data` — body wrapped in `data`;
+  accepts the same table fields (`sortKey`, `search`, `totals`, …) as the
+  API-key route.
 
 Response shapes match the [dashboard endpoints](#dashboard-endpoints) below.
 
@@ -275,9 +277,11 @@ The spec, once parsed, has roughly:
 
 ```jsonc
 {
-  "kpis":   [ { id, title, value, format, … } ],
-  "charts": [ { id, title, type: "bar|line|pie", … } ],
-  "tables": [ { id, title, columns: [ … ] } ]
+  "dashboard": {
+    "kpis":   [ { id, title, format, … } ],
+    "charts": [ { id, title, type: "bar|line|pie|table|…", config: { … } } ],
+    "table":  { id, title, type: "table" }   // older clients only; see chart-types.md
+  }
 }
 ```
 
@@ -300,9 +304,17 @@ Content-Type: application/json
   "sessionId": "ses_abc123",
   "widgetId":  "wgt_table_main",
   "offset":    0,        // tables only
-  "limit":     50        // tables only (default 100)
+  "limit":     50,       // tables only (default 100)
+  "sortKey":   "revenue",            // tables only — a result column
+  "sortDir":   "desc",               // tables only — asc | desc
+  "search":    "north",              // tables only — case-insensitive substring
+  "searchColumns": ["region", "rep"],  // tables only — columns the search looks in
+  "totals":    { "revenue": "sum" }  // tables only — column → sum | avg | min | max | count
 }
 ```
+
+Sorting, search and totals run on the server over every row of the result, not
+just the current page.
 
 **Response**
 
@@ -312,7 +324,10 @@ Content-Type: application/json
   "data":   "[ … ]",      // rows, often a JSON-encoded STRING — detect and parse
   "total":  1234,         // tables only — total row count for pagination
   "hm":     true,         // tables only — hasMore
-  "capped": false         // true when the result set was truncated
+  "capped": false,        // true when the result set was truncated
+  "totals": "{ … }",      // tables only, when requested — one row, as a JSON string
+  "compareData":  "[ … ]",           // kpi_compare only — rows for the comparison period
+  "compareLabel": "previous period"  // kpi_compare only
 }
 ```
 

@@ -49,6 +49,25 @@ Request these by name in `chartTypes`.
 |---|---|---|---|
 | `waterfall` | `labelKey`, `valueKey` | one per step, in order; the value is the signed change at that step | bars floating from the running total before the step to the one after, plus a total bar (unless `showTotal` is `false`) |
 | `sankey` | `sourceKey`, `targetKey`, `valueKey` | one per (source, target) pair | flows between nodes; a source never equals its target, and the flows never loop back |
+| `pivot_table` | `rowKeys[]`, `columnKeys[]`, `metrics[]` (`{ key, label, format }`) | long: one per (row values, column values) group | a cross-tab: `rowKeys` as row headers, `columnKeys` across the top, each metric summed in the cells (`aggregate` may be `avg`, `count`, `min` or `max`), with row and column totals |
+| `time_table` | `rowKey`, `xKey`, `valueKey` | long: one per (entity, period) | one row per entity: its latest value, a sparkline, the change against `compareLag` periods back (default 1) and the average |
+
+These are dashboard-only:
+
+| `type` | Keys | Rows | Draw it as |
+|---|---|---|---|
+| `kpi_trend` | `xKey`, `valueKey` | one per period, in order | the latest value with its change and a sparkline; with `aggregate` `sum` or `avg`, the total or average of all periods and no change |
+| `kpi_compare` | `valueKey`, `previousKey` (optional) | one | the value with its change against `previousKey`; without it, the widget data carries the comparison rows in `compareData` (see [endpoints.md](endpoints.md#post-emp1apidashboardwidgetdata)) |
+| `bullet` | `labelKey`, `valueKey`, `targetKey` (or a fixed `target`) | one per bar | a bar against its target, over bands at the `ranges` percentages of the target (default 50, 80, 100) |
+| `text` | none; `template` holds Markdown | none, or any | the Markdown, where `{{column}}` is the first row's value and `{{#rows}}…{{/rows}}` repeats once per row; render it without raw HTML |
+
+## Tables
+
+A client that lists `pivot_table` in `chartTypes` can hold any number of tables:
+they arrive in `charts` with `type: "table"`, placed on the grid like any other
+widget. A client that doesn't gets at most one table, in `table`. A table's
+optional `config` carries `columns` (`[{ key, label, format, hidden }]`) and
+`totals` (`true` for a totals row).
 
 ## Common problems
 
@@ -57,3 +76,5 @@ Request these by name in `chartTypes`.
   still contains the result.
 - **Keys don't match any column** — compare the key names without regard to
   case: some databases return column names in upper case.
+- **Only one table shows** — your client didn't list `pivot_table`, so it gets
+  the single `table` slot. List it once you render tables from `charts`.
