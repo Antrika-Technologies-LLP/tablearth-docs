@@ -51,6 +51,7 @@ Request these by name in `chartTypes`.
 | `sankey` | `sourceKey`, `targetKey`, `valueKey` | one per (source, target) pair | flows between nodes; a source never equals its target, and the flows never loop back |
 | `pivot_table` | `rowKeys[]`, `columnKeys[]`, `metrics[]` (`{ key, label, format }`) | long: one per (row values, column values) group | a cross-tab: `rowKeys` as row headers, `columnKeys` across the top, each metric summed in the cells (`aggregate` may be `avg`, `count`, `min` or `max`), with row and column totals |
 | `time_table` | `rowKey`, `xKey`, `valueKey` | long: one per (entity, period) | one row per entity: its latest value, a sparkline, the change against `compareLag` periods back (default 1) and the average |
+| `bubble` | `xKey`, `yKey`, `sizeKey`, `labelKey` (optional), `seriesKey` (optional) | one per entity | points at (x, y) whose area grows with `sizeKey`, coloured by `seriesKey` |
 
 These are dashboard-only:
 
@@ -59,7 +60,27 @@ These are dashboard-only:
 | `kpi_trend` | `xKey`, `valueKey` | one per period, in order | the latest value with its change and a sparkline; with `aggregate` `sum` or `avg`, the total or average of all periods and no change |
 | `kpi_compare` | `valueKey`, `previousKey` (optional) | one | the value with its change against `previousKey`; without it, the widget data carries the comparison rows in `compareData` (see [endpoints.md](endpoints.md#post-emp1apidashboardwidgetdata)) |
 | `bullet` | `labelKey`, `valueKey`, `targetKey` (or a fixed `target`) | one per bar | a bar against its target, over bands at the `ranges` percentages of the target (default 50, 80, 100) |
+| `rose` | `labelKey`, `valueKey` | one per category | a Nightingale rose: a pie whose petals grow with the value (`roseType` `radius` or `area`) |
 | `text` | none; `template` holds Markdown | none, or any | the Markdown, where `{{column}}` is the first row's value and `{{#rows}}…{{/rows}}` repeats once per row; render it without raw HTML |
+
+## Display options
+
+Dashboard widgets may carry display options next to their keys. Draw what you
+support and ignore the rest; the data is the same either way.
+
+| Option | Types | Meaning |
+|---|---|---|
+| `curve` | `line`, `area`, `combo` | `smooth` (default), `straight` or `step` |
+| `stack` | `area`, bar types | `none`, `stack`, `expand` (each bar or point as a % of its total) or, for `area`, `stream` |
+| `labels` | most types | `true` prints each value on its mark; for `pie`, `donut` and `rose` a mode: `name`, `value`, `percent`, `name_percent` |
+| `legend` | charts with a legend | `top`, `bottom`, `right` or `none` |
+| `yMin`, `yMax`, `logScale` | cartesian types | value-axis bounds and a log scale |
+| `sort` | bar types | `value_desc`, `value_asc` or `label` |
+| `axis: "right"` | `combo` `bars[]` / `lines[]` items | draw that series on a second y axis |
+| `min`, `max`, `bands`, `style` | `gauge` | the scale, coloured `[{ to, color }]` bands, `progress` ring or `pointer` dial |
+
+Top N, running totals, moving averages, % change and contribution are applied
+on the server: the widget data already holds the transformed rows.
 
 ## Tables
 
