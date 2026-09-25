@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### 2026-09-26 — Bubble and rose charts, display options
+
+- **New chart types:** `bubble` (chat and dashboards) and `rose` (dashboards),
+  in the [chart types](docs/api/chart-types.md) reference.
+- **Display options** documented for dashboard widgets: curve, stacking
+  (including 100%), value labels, legend position, axis bounds, sort, a second
+  y axis and gauge bands.
+- **Server-side transforms:** top N with "Others", running totals, moving
+  averages, % change and contribution arrive already applied in the widget data.
+
 ### 2026-09-26 — KPI and table chart types
 
 - **New chart types:** `pivot_table` and `time_table` (chat and dashboards),
