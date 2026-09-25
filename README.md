@@ -18,7 +18,6 @@ your own surface, start here.
 | **JS widget** | Embedding alongside an existing report or table in your own web app. | [docs/integrations/widget.md](docs/integrations/widget.md) |
 | **Chrome extension** | Letting end users analyse any table on any third-party page. | [docs/integrations/chrome-extension.md](docs/integrations/chrome-extension.md) |
 | **Server-to-server REST** | Programmatic ingestion / batch / custom UI. | [docs/integrations/api.md](docs/integrations/api.md) |
-| **Apache Superset** | Governed datasets, saved metrics and native Superset charts in the TableArth portal. | [docs/integrations/superset.md](docs/integrations/superset.md) |
 
 If you're not sure which one you need, the rule of thumb:
 
