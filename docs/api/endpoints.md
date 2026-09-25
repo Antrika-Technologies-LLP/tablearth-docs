@@ -173,6 +173,9 @@ Accept:       text/event-stream, application/json     // recommended for stream
 > The API-key body is **flat** — not wrapped in `data`. (The widget route wraps
 > it; see below.)
 
+Add `"chartTypes": ["bar", "waterfall", …]` to receive chart types beyond the base
+set; see [chart-types.md](chart-types.md#which-types-you-receive).
+
 **Response, `stream:false`**
 
 ```jsonc
@@ -231,7 +234,8 @@ Source recorded as `Widget` in admin.
 
 The widget has its **own** dashboard routes (distinct from `/api/dashboard/*`):
 
-- `GET  /emp/1/api/tableai/widget/dashboard/spec` — `sessionId` via header.
+- `GET  /emp/1/api/tableai/widget/dashboard/spec` — `sessionId` via header;
+  optional `chartTypes`, comma-separated (see [chart-types.md](chart-types.md)).
 - `POST /emp/1/api/tableai/widget/dashboard/widget/data` — body wrapped in `data`.
 
 Response shapes match the [dashboard endpoints](#dashboard-endpoints) below.
@@ -253,6 +257,9 @@ Content-Type: application/json
 
 { "sessionId": "ses_abc123" }
 ```
+
+`chartTypes` (optional array) names the chart types your client draws; without it
+the spec only holds base-set types. See [chart-types.md](chart-types.md).
 
 **Response**
 

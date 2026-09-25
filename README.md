@@ -35,6 +35,7 @@ If you're not sure which one you need, the rule of thumb:
 
 - [Endpoint reference](docs/api/endpoints.md) — every public route, headers, request/response shapes.
 - [SSE protocol](docs/api/sse-protocol.md) — how the chat stream is framed.
+- [Chart types](docs/api/chart-types.md) — every chart type, its column keys, and how to ask for more than the base set.
 - [Troubleshooting](docs/troubleshooting.md) — common 401/403/CORS pitfalls.
 
 ## Getting help
