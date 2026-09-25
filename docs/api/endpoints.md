@@ -71,7 +71,7 @@ Open or resume a session by `remoteSessionId`.
 |---|---|---|
 | `apiKey` | yes | The activation key. |
 | `Origin` | yes | Browser sets it; servers must set explicitly. |
-| `remoteSessionId` | yes | Stable session key. See [concepts.md](../concepts.md#remoteid--remotesessionid). |
+| `remoteSessionId` | yes | Stable session key. See [concepts.md](../concepts.md#remotesessionid--remoteid). |
 | `pt` | yes | Page total — number of past messages to load. |
 | `pn` | yes | Page number. `0` for the first page. |
 | `customerId` | optional | Tag the session with an Account ID. |

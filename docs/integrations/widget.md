@@ -49,7 +49,7 @@ Three things: the bundle, a div, and a `syncUser` → `renderTableAI` pair.
 | Field | Required? | What it's used for |
 |---|---|---|
 | `widgetId` | yes | Tells the backend which agent + tenant. Matched against each div's `data-id`. |
-| `remoteSessionId` | recommended | Stable session key — same value resumes the chat. See [concepts](../concepts.md#remoteid--remotesessionid). |
+| `remoteSessionId` | recommended | Stable session key — same value resumes the chat. See [concepts](../concepts.md#remotesessionid--remoteid). |
 | `csvFile` | optional | Raw CSV string. Used to derive the session key when `remoteSessionId` is absent. |
 | `reportName` | optional | Dialog title (or set `data-report-name`). |
 | `theme` | optional | `'LIGHT'` (default) or `'DARK'`. |
@@ -142,7 +142,7 @@ re-issued. There is no separate `setSsoToken` call.
 
 ## How `remoteSessionId` works
 
-Read [concepts.md](../concepts.md#remoteid--remotesessionid) for the full picture.
+Read [concepts.md](../concepts.md#remotesessionid--remoteid) for the full picture.
 For the widget:
 
 - Pass a **stable identity** when you have one:
