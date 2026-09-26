@@ -83,6 +83,7 @@ These are dashboard-only:
 | `text` | none; `template` holds Markdown | none, or any | the Markdown, where `{{column}}` is the first row's value and `{{#rows}}…{{/rows}}` repeats once per row; render it without raw HTML |
 | `histogram` | the widget data holds `bin_start`, `bin_end`, `count` (+ `seriesKey`) | one per bin | bars over the bins |
 | `box_plot` | the widget data holds `low`, `q1`, `median`, `q3`, `high`, `outliers` per group | one per group | a box per group with its outliers |
+| `violin` | the widget data holds the `box_plot` fields plus `min`, `max`, `mean`, `density` (`[value, density]` pairs) and `log` per group | one per group | each group's density mirrored around its place on the axis, with the quartiles inside; on a log value axis when `log` is true |
 | `ttest_table` | the widget data holds `metric`, the group, `mean`, `lift_pct`, `p_value`, `significant`, `control` | one per group per metric | a table of each group against the control |
 | `icicle` | `levels[]`, `valueKey` | long: one per leaf | nested bands, one per level |
 | `chord` | `sourceKey`, `targetKey`, `valueKey` | one per link | ribbons between entities around a circle |
@@ -116,6 +117,7 @@ Tableau alias as its `type`; it is stored under the canonical type:
 | `pareto_chart`, `lollipop_chart` | `pareto`, `lollipop` |
 | `side_by_side_circles` | `dot_plot` with `dodge: true` |
 | `strip_plot`, `jitter_plot` | `dot_plot` with `jitter: true` |
+| `violin_plot`, `violin_chart` | `violin` |
 
 Tableau chart names, and the type that draws each:
 
@@ -193,6 +195,7 @@ Tableau chart names, and the type that draws each:
 | Tornado chart | `butterfly` |
 | Treemap | `treemap` |
 | Variable-width bars | `marimekko` |
+| Violin plot | `violin` |
 | Waffle chart | `waffle` |
 | Waterfall chart | `waterfall` |
 | Word cloud | `word_cloud` |
@@ -251,9 +254,13 @@ support and ignore the rest; the data is the same either way.
 | `dodge`, `jitter`, `dotSize` | `dot_plot` | groups side by side; spread overlapping circles; circle size in pixels |
 | `split`, `xSplit`, `ySplit`, `quadrantNames` | `quadrant` | `average` (default), `median` or `value` (with the two split values); four names, comma separated: top right, top left, bottom left, bottom right |
 | `facetKey` | line, area, bar types, scatter, bubble, pie, donut, lollipop | a column of the rows: draw the chart once per value of it (small multiples); `sharedScale` (default `true`) gives the panels one value scale |
-| `referenceLine`, `referenceValue`, `referenceLabel` | line, area, bar types, combo, scatter, bubble, lollipop | a line across the values at `average`, `median`, `min`, `max`, or `value` (at `referenceValue`) |
-| `referenceBand`, `bandFrom`, `bandTo` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%) or `value` (`bandFrom` to `bandTo`, each a number or `min`, `max`, `average` or `median` of the drawn values, so `min` to `max` is Tableau's range band) |
+| `referenceLine`, `referenceValue`, `referencePercentile`, `referenceLabel` | line, area, bar types, combo, scatter, bubble, lollipop | a line across the values at `average`, `median`, `min`, `max`, `percentile` (at `referencePercentile`, default 90) or `value` (at `referenceValue`) |
+| `referenceBand`, `bandFrom`, `bandTo`, `confidence` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%), `ci` (the mean's confidence interval at `confidence`: `95` default, `90` or `99`) or `value` (`bandFrom` to `bandTo`, each a number, `min`, `max`, `average` or `median` of the drawn values, or a percentile such as `p10`; `min` to `max` is Tableau's range band) |
 | `trendline`, `trendDegree` | scatter, bubble, line | a fitted trend: `linear`, `logarithmic`, `exponential`, `power` or `polynomial` (of `trendDegree`, 2–5) |
+| `forecast`, `forecastInterval`, `forecastSeason` | `line`, `area` | Tableau's forecast: how many periods to continue each series past its last one, by exponential smoothing with the trend and season that fit best, inside a shaded `forecastInterval` (`95` default, `90`, `99` or `none`). The x values must be dated periods (`2025-11`, `2025-Q3`, `2025-11-30`); `forecastSeason` is `auto` (default), `none` or the periods per season. The widget data holds the history only: a client that draws the forecast works it out from those rows |
+| `clusters` | `scatter`, `bubble` | Tableau's clusters: `auto`, or a number from 2 to 8, colours the points by k-means cluster over the plotted measures |
+| `annotations` | `line`, `area`, `bar`, grouped and stacked bars, `combo` | notes on the x axis: `{ "at": "2025-11", "label": "Sale" }` marks an event, `{ "from": "2025-06", "to": "2025-08", "label": "Monsoon" }` shades a period; values are those of the x column |
+| `scale`, `bandwidth`, `showBox`, `logScale` | `violin` | violin sizes (`area` default, `width` or `count`); smoothing, as a multiple of the automatic bandwidth (default 1); the quartile box inside (default `true`); a log value axis, `auto` (default: when the values run over orders of magnitude), `on` or `off` |
 | `sigma` | `control_chart` | how many standard deviations the control limits sit from the mean (default 3) |
 | `country`, `shape` | `tile_map` | `auto` (from the region values), `us` or `india`; `square` (default) or `hexagon` tiles |
 | `heatmapScope` | `pivot_table` | with `heatmap`: colour across the whole `table` (default), within each `row` or within each `column` |
