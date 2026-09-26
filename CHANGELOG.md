@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### 2026-09-27 — Fixes
+
+- **Pie labels:** `labels: true` on `pie`, `donut` and `rose` shows the type's
+  default labels (it showed none), and `false` hides them. `name_value` is
+  listed among the modes.
+- **Forecasts over dates:** x values that are dates on one day of each month
+  (`2025-10-01`, `2025-11-01`), or on month ends, forecast by month; they were
+  read as days and drifted off the month. See
+  [display options](docs/api/chart-types.md#display-options).
+
 ### 2026-09-27 — Forecasts, clusters, violin plots and annotations
 
 - **Forecast:** `forecast` on `line` and `area` continues each series past its
