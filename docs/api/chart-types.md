@@ -64,6 +64,11 @@ Request these by name in `chartTypes`.
 | `slope` | `xKey`, `seriesKey`, `valueKey` | long: one per (period, entity) | a line per entity from its value in the first period to the last |
 | `bump` | `xKey`, `seriesKey`, `valueKey` | long: one per (period, entity) | each entity's rank within each period (highest value first), rank 1 at the top |
 | `radial_bar` | `labelKey`, `valueKey`, `seriesKey` (optional) | one per category | bars bent around a circle, the largest on the outside |
+| `waffle` | `labelKey`, `valueKey` | one per category | a 10 × 10 grid of squares, one per percent of the whole, filled in reading order; with `total`, the squares past the values stay empty |
+| `marimekko` | `labelKey`, `seriesKey`, `valueKey` | long: one per (column, segment) | columns as wide as their share of the total, each stacked to 100% by segment |
+| `packed_bubbles` | `labelKey`, `valueKey`, `seriesKey` (optional) | one per category | circles packed together, each with an area proportional to its value |
+| `dot_plot` | `labelKey`, `valueKey`, `seriesKey` (optional), `sizeKey` (optional) | one per detail row (several per category) | a circle per row along the category axis; `dodge` sets groups side by side, `jitter` spreads them sideways |
+| `quadrant` | `xKey`, `yKey`, `labelKey` (optional), `sizeKey` (optional) | one per entity | a scatter divided into four by a line on each axis (at the averages unless `split` says `median` or `value`) |
 
 These are dashboard-only:
 
@@ -99,6 +104,8 @@ Tableau alias as its `type`; it is stored under the canonical type:
 | `text_table`, `crosstab` | `pivot_table` |
 | `dual_axis`, `dual_line`, `dual_combination` | `combo` (put a series on the right axis with `"axis": "right"`) |
 | `pareto_chart`, `lollipop_chart` | `pareto`, `lollipop` |
+| `side_by_side_circles` | `dot_plot` with `dodge: true` |
+| `strip_plot`, `jitter_plot` | `dot_plot` with `jitter: true` |
 
 Tableau chart names, and the type that draws each:
 
@@ -116,6 +123,7 @@ Tableau chart names, and the type that draws each:
 | Butterfly chart | `butterfly` |
 | Calendar heat map | `calendar` |
 | Chord diagram | `chord` |
+| Circle views | `dot_plot` |
 | Combination chart | `combo` |
 | Continuous area chart | `area` |
 | Continuous lines | `line` |
@@ -138,31 +146,40 @@ Tableau chart names, and the type that draws each:
 | Highlight table | `pivot_table` |
 | Histogram | `histogram` |
 | Horizontal bars | `hbar` |
+| Jitter plot | `dot_plot` |
 | Likert chart | `diverging_bar` |
 | Line chart | `line` |
 | Lollipop chart | `lollipop` |
 | Map with pie charts | `chart_map` |
+| Marimekko chart | `marimekko` |
+| Mekko chart | `marimekko` |
 | Network graph | `graph` |
 | Origin-destination map | `arc_map` |
+| Packed bubbles | `packed_bubbles` |
 | Pareto chart | `pareto` |
 | Pie chart | `pie` |
 | Point distribution map | `point_map` |
 | Population pyramid | `butterfly` |
+| Quadrant chart | `quadrant` |
 | Radar chart | `radar` |
 | Radial bar chart | `radial_bar` |
 | Sankey diagram | `sankey` |
 | Scatter plot | `scatter` |
 | Side-by-side bars | `grouped_bar`, `grouped_hbar` |
+| Side-by-side circles | `dot_plot` |
 | Slope chart | `slope` |
 | Slopegraph | `slope` |
 | Sparkline table | `time_table` |
 | Spider map | `arc_map` |
 | Stacked bars | `stacked_bar`, `stacked_hbar` |
+| Strip plot | `dot_plot` |
 | Sunburst | `sunburst` |
 | Symbol map | `world_map`, `point_map` |
 | Text table | `pivot_table` |
 | Tornado chart | `butterfly` |
 | Treemap | `treemap` |
+| Variable-width bars | `marimekko` |
+| Waffle chart | `waffle` |
 | Waterfall chart | `waterfall` |
 | Word cloud | `word_cloud` |
 
@@ -216,6 +233,9 @@ support and ignore the rest; the data is the same either way.
 | `colorBy` | `slope` | `direction` (default: rises and falls) or `entity` |
 | `topN`, `rankOrder` | `bump` | lines for the top N of the last period (default 10); `desc` (default) ranks the highest value first, `asc` the lowest |
 | `maxAngle` | `radial_bar` | the sweep of the largest bar, in degrees (default 270) |
+| `total` | `waffle` | the whole the values are parts of (default: their sum) |
+| `dodge`, `jitter`, `dotSize` | `dot_plot` | groups side by side; spread overlapping circles; circle size in pixels |
+| `split`, `xSplit`, `ySplit`, `quadrantNames` | `quadrant` | `average` (default), `median` or `value` (with the two split values); four names, comma separated: top right, top left, bottom left, bottom right |
 | `heatmap` | `pivot_table` | colour each cell by its value (a Tableau highlight table) |
 
 Top N, running totals, moving averages, % change and contribution are applied
