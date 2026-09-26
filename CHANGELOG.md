@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+### 2026-09-27 — Tableau chart types
+
+- **New chart types:** `pareto`, `lollipop`, `dumbbell`, `bar_in_bar`,
+  `butterfly`, `diverging_bar`, `slope`, `bump`, `radial_bar`, `waffle`,
+  `marimekko`, `packed_bubbles`, `dot_plot`, `quadrant`, `control_chart` and
+  `tile_map` (chat and dashboards) and `motion` (dashboards), in the
+  [chart types](docs/api/chart-types.md) reference.
+- **Tableau names:** a widget may use a Tableau alias as its `type`, such as
+  `highlight_table` or `side_by_side_circles`; see
+  [Tableau chart names](docs/api/chart-types.md#tableau-chart-names).
+- **Small multiples, reference lines and trend lines:** `facetKey` draws a
+  chart once per value of a column, and `referenceLine`, `referenceBand` and
+  `trendline` add Tableau's Analytics-pane marks. A band's `bandFrom` and
+  `bandTo` take a number or `min`, `max`, `average` or `median` of the drawn
+  values. See [display options](docs/api/chart-types.md#display-options).
+- **Heat maps and highlight tables:** `heatmap` accepts `sizeKey` to size each
+  cell's square by a second measure, and `heatmapScope` colours a highlight
+  table within each row or column.
+
 ### 2026-09-26 — Maps
 
 - **New chart types:** `world_map` and `country_map` (chat and dashboards);
