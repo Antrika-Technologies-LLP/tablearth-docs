@@ -70,6 +70,7 @@ Request these by name in `chartTypes`.
 | `dot_plot` | `labelKey`, `valueKey`, `seriesKey` (optional), `sizeKey` (optional) | one per detail row (several per category) | a circle per row along the category axis; `dodge` sets groups side by side, `jitter` spreads them sideways |
 | `quadrant` | `xKey`, `yKey`, `labelKey` (optional), `sizeKey` (optional) | one per entity | a scatter divided into four by a line on each axis (at the averages unless `split` says `median` or `value`) |
 | `control_chart` | `xKey`, `valueKey` | one per period or sample, in order | the values against their mean and control limits (mean ± `sigma` standard deviations, default 3), points outside the limits marked |
+| `tile_map` | `regionKey`, `valueKey` | one per US state (or DC) or Indian state / union territory: a name, postal or ISO code, or an `US-` / `IN-` code | equal tiles at fixed spots in a map-like grid, coloured by value |
 
 These are dashboard-only:
 
@@ -93,6 +94,9 @@ These are dashboard-only:
 | `gantt` | `labelKey`, `startKey`, `endKey`, `seriesKey` (optional) | one per bar | bars from start to end on a time axis |
 
 `treemap` also accepts `levels[]` instead of `labelKey` for a nested treemap.
+
+`heatmap` also accepts `sizeKey`: each cell is then a square sized by that measure
+as well as coloured by the value, as in Tableau's heat map.
 
 `motion` is dashboard-only: `frameKey` (the period), `xKey`, `yKey`, `labelKey` (the
 entity), optional `sizeKey` and `seriesKey`; long rows, one per (period, entity). Draw
@@ -150,6 +154,7 @@ Tableau chart names, and the type that draws each:
 | Funnel chart | `funnel` |
 | Gantt chart | `gantt` |
 | Heat map | `heatmap` |
+| Hex map (tile grid) | `tile_map` |
 | Highlight table | `pivot_table` |
 | Histogram | `histogram` |
 | Horizontal bars | `hbar` |
@@ -184,6 +189,7 @@ Tableau chart names, and the type that draws each:
 | Sunburst | `sunburst` |
 | Symbol map | `world_map`, `point_map` |
 | Text table | `pivot_table` |
+| Tile map | `tile_map` |
 | Tornado chart | `butterfly` |
 | Treemap | `treemap` |
 | Variable-width bars | `marimekko` |
@@ -249,6 +255,8 @@ support and ignore the rest; the data is the same either way.
 | `referenceBand`, `bandFrom`, `bandTo` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%) or `value` (`bandFrom` to `bandTo`) |
 | `trendline`, `trendDegree` | scatter, bubble, line | a fitted trend: `linear`, `logarithmic`, `exponential`, `power` or `polynomial` (of `trendDegree`, 2–5) |
 | `sigma` | `control_chart` | how many standard deviations the control limits sit from the mean (default 3) |
+| `country`, `shape` | `tile_map` | `auto` (from the region values), `us` or `india`; `square` (default) or `hexagon` tiles |
+| `heatmapScope` | `pivot_table` | with `heatmap`: colour across the whole `table` (default), within each `row` or within each `column` |
 | `heatmap` | `pivot_table` | colour each cell by its value (a Tableau highlight table) |
 
 Top N, running totals, moving averages, % change and contribution are applied
