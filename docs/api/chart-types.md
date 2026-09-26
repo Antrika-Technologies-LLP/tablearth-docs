@@ -69,6 +69,7 @@ Request these by name in `chartTypes`.
 | `packed_bubbles` | `labelKey`, `valueKey`, `seriesKey` (optional) | one per category | circles packed together, each with an area proportional to its value |
 | `dot_plot` | `labelKey`, `valueKey`, `seriesKey` (optional), `sizeKey` (optional) | one per detail row (several per category) | a circle per row along the category axis; `dodge` sets groups side by side, `jitter` spreads them sideways |
 | `quadrant` | `xKey`, `yKey`, `labelKey` (optional), `sizeKey` (optional) | one per entity | a scatter divided into four by a line on each axis (at the averages unless `split` says `median` or `value`) |
+| `control_chart` | `xKey`, `valueKey` | one per period or sample, in order | the values against their mean and control limits (mean ± `sigma` standard deviations, default 3), points outside the limits marked |
 
 These are dashboard-only:
 
@@ -92,6 +93,11 @@ These are dashboard-only:
 | `gantt` | `labelKey`, `startKey`, `endKey`, `seriesKey` (optional) | one per bar | bars from start to end on a time axis |
 
 `treemap` also accepts `levels[]` instead of `labelKey` for a nested treemap.
+
+`motion` is dashboard-only: `frameKey` (the period), `xKey`, `yKey`, `labelKey` (the
+entity), optional `sizeKey` and `seriesKey`; long rows, one per (period, entity). Draw
+the entities as bubbles on fixed axes and let the viewer play through the periods
+(Tableau's motion chart); `autoplay` and `trails` are display options.
 
 ## Tableau chart names
 
@@ -127,6 +133,7 @@ Tableau chart names, and the type that draws each:
 | Combination chart | `combo` |
 | Continuous area chart | `area` |
 | Continuous lines | `line` |
+| Control chart | `control_chart` |
 | Crosstab | `pivot_table` |
 | Density map | `density_map` |
 | Discrete area chart | `area` |
@@ -153,6 +160,7 @@ Tableau chart names, and the type that draws each:
 | Map with pie charts | `chart_map` |
 | Marimekko chart | `marimekko` |
 | Mekko chart | `marimekko` |
+| Motion chart | `motion` |
 | Network graph | `graph` |
 | Origin-destination map | `arc_map` |
 | Packed bubbles | `packed_bubbles` |
@@ -236,6 +244,11 @@ support and ignore the rest; the data is the same either way.
 | `total` | `waffle` | the whole the values are parts of (default: their sum) |
 | `dodge`, `jitter`, `dotSize` | `dot_plot` | groups side by side; spread overlapping circles; circle size in pixels |
 | `split`, `xSplit`, `ySplit`, `quadrantNames` | `quadrant` | `average` (default), `median` or `value` (with the two split values); four names, comma separated: top right, top left, bottom left, bottom right |
+| `facetKey` | line, area, bar types, scatter, bubble, pie, donut, lollipop | a column of the rows: draw the chart once per value of it (small multiples); `sharedScale` (default `true`) gives the panels one value scale |
+| `referenceLine`, `referenceValue`, `referenceLabel` | line, area, bar types, combo, scatter, bubble, lollipop | a line across the values at `average`, `median`, `min`, `max`, or `value` (at `referenceValue`) |
+| `referenceBand`, `bandFrom`, `bandTo` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%) or `value` (`bandFrom` to `bandTo`) |
+| `trendline`, `trendDegree` | scatter, bubble, line | a fitted trend: `linear`, `logarithmic`, `exponential`, `power` or `polynomial` (of `trendDegree`, 2–5) |
+| `sigma` | `control_chart` | how many standard deviations the control limits sit from the mean (default 3) |
 | `heatmap` | `pivot_table` | colour each cell by its value (a Tableau highlight table) |
 
 Top N, running totals, moving averages, % change and contribution are applied
