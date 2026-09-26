@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### 2026-09-27 — Forecasts, clusters, violin plots and annotations
+
+- **Forecast:** `forecast` on `line` and `area` continues each series past its
+  last period, with a shaded prediction interval (`forecastInterval`), as
+  Tableau's forecast does; see
+  [display options](docs/api/chart-types.md#display-options).
+- **Clusters:** `clusters` on `scatter` and `bubble` colours the points by
+  k-means cluster, as Tableau's clusters do.
+- **New chart type:** `violin` (dashboards), whose widget data holds each
+  group's density with its box-plot statistics, in the
+  [chart types](docs/api/chart-types.md) reference.
+- **Annotations:** `annotations` marks events and periods on the x axis of line,
+  area, bar and combo charts.
+- **Reference lines and bands:** a line at a percentile, the mean's confidence
+  interval as a band, and percentile band edges such as `p10`.
+
 ### 2026-09-27 — Tableau chart types
 
 - **New chart types:** `pareto`, `lollipop`, `dumbbell`, `bar_in_bar`,
