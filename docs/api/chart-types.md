@@ -179,7 +179,7 @@ Tableau chart names, and the type that draws each:
 | Sankey diagram | `sankey` |
 | Scatter plot | `scatter` |
 | Side-by-side bars | `grouped_bar`, `grouped_hbar` |
-| Side-by-side circles | `dot_plot` |
+| Side-by-side circles | `dot_plot` with `dodge: true` |
 | Slope chart | `slope` |
 | Slopegraph | `slope` |
 | Sparkline table | `time_table` |
@@ -252,7 +252,7 @@ support and ignore the rest; the data is the same either way.
 | `split`, `xSplit`, `ySplit`, `quadrantNames` | `quadrant` | `average` (default), `median` or `value` (with the two split values); four names, comma separated: top right, top left, bottom left, bottom right |
 | `facetKey` | line, area, bar types, scatter, bubble, pie, donut, lollipop | a column of the rows: draw the chart once per value of it (small multiples); `sharedScale` (default `true`) gives the panels one value scale |
 | `referenceLine`, `referenceValue`, `referenceLabel` | line, area, bar types, combo, scatter, bubble, lollipop | a line across the values at `average`, `median`, `min`, `max`, or `value` (at `referenceValue`) |
-| `referenceBand`, `bandFrom`, `bandTo` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%) or `value` (`bandFrom` to `bandTo`) |
+| `referenceBand`, `bandFrom`, `bandTo` | as `referenceLine` | a shaded band: `stdev` (within one standard deviation of the mean), `iqr` (the middle 50%) or `value` (`bandFrom` to `bandTo`, each a number or `min`, `max`, `average` or `median` of the drawn values, so `min` to `max` is Tableau's range band) |
 | `trendline`, `trendDegree` | scatter, bubble, line | a fitted trend: `linear`, `logarithmic`, `exponential`, `power` or `polynomial` (of `trendDegree`, 2–5) |
 | `sigma` | `control_chart` | how many standard deviations the control limits sit from the mean (default 3) |
 | `country`, `shape` | `tile_map` | `auto` (from the region values), `us` or `india`; `square` (default) or `hexagon` tiles |
