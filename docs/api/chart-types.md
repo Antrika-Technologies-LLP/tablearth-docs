@@ -55,6 +55,8 @@ Request these by name in `chartTypes`.
 | `sunburst` | `levels[]` (column names, top level first), `valueKey` | long: one per leaf | rings: the first level innermost, each ring split by the next level |
 | `graph` | `sourceKey`, `targetKey`, `valueKey` (optional) | one per link | a network: nodes sized by their total weight, links between them |
 | `radar` | `labelKey`, `metrics[]` (`{ key, label }`) | one per entity, 3–8 metrics | one shape per row across one axis per metric |
+| `pareto` | `labelKey`, `valueKey` | one per category; amounts not negative | bars largest first, with the running share of the total as a line on a 0–100% axis and a guide at `threshold` percent (default 80) |
+| `lollipop` | `labelKey`, `valueKey` | one per category | a thin stem from zero to each value with a dot at its end, across (default) or up (`orientation`), sorted like bars |
 
 These are dashboard-only:
 
@@ -78,6 +80,71 @@ These are dashboard-only:
 | `gantt` | `labelKey`, `startKey`, `endKey`, `seriesKey` (optional) | one per bar | bars from start to end on a time axis |
 
 `treemap` also accepts `levels[]` instead of `labelKey` for a nested treemap.
+
+## Tableau chart names
+
+Types answer to the names Tableau users know. A widget may be written with a
+Tableau alias as its `type`; it is stored under the canonical type:
+
+| Alias | Stored as |
+|---|---|
+| `highlight_table` | `pivot_table` with `heatmap: true` (unless the widget sets it) |
+| `text_table`, `crosstab` | `pivot_table` |
+| `dual_axis`, `dual_line`, `dual_combination` | `combo` (put a series on the right axis with `"axis": "right"`) |
+| `pareto_chart`, `lollipop_chart` | `pareto`, `lollipop` |
+
+Tableau chart names, and the type that draws each:
+
+| Tableau | `type` |
+|---|---|
+| BAN with comparison | `kpi_compare` |
+| BAN with sparkline | `kpi_trend` |
+| Bar chart | `bar` |
+| Big number (BAN) | `kpi` |
+| Box-and-whisker plot | `box_plot` |
+| Bullet graph | `bullet` |
+| Calendar heat map | `calendar` |
+| Chord diagram | `chord` |
+| Combination chart | `combo` |
+| Continuous area chart | `area` |
+| Continuous lines | `line` |
+| Crosstab | `pivot_table` |
+| Density map | `density_map` |
+| Discrete area chart | `area` |
+| Discrete lines | `line` |
+| Donut chart | `donut` |
+| Dual combination | `combo` |
+| Dual lines | `combo` |
+| Dual-axis map | `world_map` |
+| Filled map | `world_map`, `country_map` |
+| Flow map | `path_map` |
+| Funnel chart | `funnel` |
+| Gantt chart | `gantt` |
+| Heat map | `heatmap` |
+| Highlight table | `pivot_table` |
+| Histogram | `histogram` |
+| Horizontal bars | `hbar` |
+| Line chart | `line` |
+| Lollipop chart | `lollipop` |
+| Map with pie charts | `chart_map` |
+| Network graph | `graph` |
+| Origin-destination map | `arc_map` |
+| Pareto chart | `pareto` |
+| Pie chart | `pie` |
+| Point distribution map | `point_map` |
+| Radar chart | `radar` |
+| Sankey diagram | `sankey` |
+| Scatter plot | `scatter` |
+| Side-by-side bars | `grouped_bar`, `grouped_hbar` |
+| Sparkline table | `time_table` |
+| Spider map | `arc_map` |
+| Stacked bars | `stacked_bar`, `stacked_hbar` |
+| Sunburst | `sunburst` |
+| Symbol map | `world_map`, `point_map` |
+| Text table | `pivot_table` |
+| Treemap | `treemap` |
+| Waterfall chart | `waterfall` |
+| Word cloud | `word_cloud` |
 
 ## Maps
 
@@ -122,6 +189,9 @@ support and ignore the rest; the data is the same either way.
 | `sort` | bar types | `value_desc`, `value_asc` or `label` |
 | `axis: "right"` | `combo` `bars[]` / `lines[]` items | draw that series on a second y axis |
 | `min`, `max`, `bands`, `style` | `gauge` | the scale, coloured `[{ to, color }]` bands, `progress` ring or `pointer` dial |
+| `threshold` | `pareto` | the cumulative percentage the guide line marks; the bars up to it keep the full colour (default 80, `0` hides it) |
+| `orientation`, `dotSize` | `lollipop` | `horizontal` (default) or `vertical`; the dot's diameter in pixels |
+| `heatmap` | `pivot_table` | colour each cell by its value (a Tableau highlight table) |
 
 Top N, running totals, moving averages, % change and contribution are applied
 on the server: the widget data already holds the transformed rows.
