@@ -57,6 +57,13 @@ Request these by name in `chartTypes`.
 | `radar` | `labelKey`, `metrics[]` (`{ key, label }`) | one per entity, 3–8 metrics | one shape per row across one axis per metric |
 | `pareto` | `labelKey`, `valueKey` | one per category; amounts not negative | bars largest first, with the running share of the total as a line on a 0–100% axis and a guide at `threshold` percent (default 80) |
 | `lollipop` | `labelKey`, `valueKey` | one per category | a thin stem from zero to each value with a dot at its end, across (default) or up (`orientation`), sorted like bars |
+| `dumbbell` | `labelKey`, `seriesKey`, `valueKey` | long: one per (category, group) | a dot per group joined from the lowest to the highest, widest gap first |
+| `bar_in_bar` | `labelKey`, `valueKey`, `targetKey` | one per category | the value as a slim bar inside a wider bar for the target |
+| `butterfly` | `labelKey`, `seriesKey`, `valueKey` | long: one per (category, group), exactly two groups | the first group's bars running left of a centre line and the second's right, on one scale |
+| `diverging_bar` | `labelKey`, `seriesKey`, `valueKey` | long: one per (item, level), in the scale's order | the first half of the levels stacked left of zero and the second half right; with an odd count the middle level is neutral and split across zero |
+| `slope` | `xKey`, `seriesKey`, `valueKey` | long: one per (period, entity) | a line per entity from its value in the first period to the last |
+| `bump` | `xKey`, `seriesKey`, `valueKey` | long: one per (period, entity) | each entity's rank within each period (highest value first), rank 1 at the top |
+| `radial_bar` | `labelKey`, `valueKey`, `seriesKey` (optional) | one per category | bars bent around a circle, the largest on the outside |
 
 These are dashboard-only:
 
@@ -100,9 +107,13 @@ Tableau chart names, and the type that draws each:
 | BAN with comparison | `kpi_compare` |
 | BAN with sparkline | `kpi_trend` |
 | Bar chart | `bar` |
+| Bar-in-bar chart | `bar_in_bar` |
+| Barbell chart | `dumbbell` |
 | Big number (BAN) | `kpi` |
 | Box-and-whisker plot | `box_plot` |
 | Bullet graph | `bullet` |
+| Bump chart | `bump` |
+| Butterfly chart | `butterfly` |
 | Calendar heat map | `calendar` |
 | Chord diagram | `chord` |
 | Combination chart | `combo` |
@@ -112,10 +123,13 @@ Tableau chart names, and the type that draws each:
 | Density map | `density_map` |
 | Discrete area chart | `area` |
 | Discrete lines | `line` |
+| Diverging bar chart | `diverging_bar` |
+| DNA chart | `dumbbell` |
 | Donut chart | `donut` |
 | Dual combination | `combo` |
 | Dual lines | `combo` |
 | Dual-axis map | `world_map` |
+| Dumbbell chart | `dumbbell` |
 | Filled map | `world_map`, `country_map` |
 | Flow map | `path_map` |
 | Funnel chart | `funnel` |
@@ -124,6 +138,7 @@ Tableau chart names, and the type that draws each:
 | Highlight table | `pivot_table` |
 | Histogram | `histogram` |
 | Horizontal bars | `hbar` |
+| Likert chart | `diverging_bar` |
 | Line chart | `line` |
 | Lollipop chart | `lollipop` |
 | Map with pie charts | `chart_map` |
@@ -132,16 +147,21 @@ Tableau chart names, and the type that draws each:
 | Pareto chart | `pareto` |
 | Pie chart | `pie` |
 | Point distribution map | `point_map` |
+| Population pyramid | `butterfly` |
 | Radar chart | `radar` |
+| Radial bar chart | `radial_bar` |
 | Sankey diagram | `sankey` |
 | Scatter plot | `scatter` |
 | Side-by-side bars | `grouped_bar`, `grouped_hbar` |
+| Slope chart | `slope` |
+| Slopegraph | `slope` |
 | Sparkline table | `time_table` |
 | Spider map | `arc_map` |
 | Stacked bars | `stacked_bar`, `stacked_hbar` |
 | Sunburst | `sunburst` |
 | Symbol map | `world_map`, `point_map` |
 | Text table | `pivot_table` |
+| Tornado chart | `butterfly` |
 | Treemap | `treemap` |
 | Waterfall chart | `waterfall` |
 | Word cloud | `word_cloud` |
@@ -190,7 +210,12 @@ support and ignore the rest; the data is the same either way.
 | `axis: "right"` | `combo` `bars[]` / `lines[]` items | draw that series on a second y axis |
 | `min`, `max`, `bands`, `style` | `gauge` | the scale, coloured `[{ to, color }]` bands, `progress` ring or `pointer` dial |
 | `threshold` | `pareto` | the cumulative percentage the guide line marks; the bars up to it keep the full colour (default 80, `0` hides it) |
-| `orientation`, `dotSize` | `lollipop` | `horizontal` (default) or `vertical`; the dot's diameter in pixels |
+| `orientation`, `dotSize` | `lollipop`, `dumbbell` (`orientation` also `bar_in_bar`) | `horizontal` (default) or `vertical`; the dot's diameter in pixels |
+| `sort` | `dumbbell` | `gap_desc` (default), `gap_asc`, `value_desc`, `label` or `none` |
+| `neutral`, `percent` | `diverging_bar` | `split` (default) or `hide` the middle level; show each item's answers as shares of its total (default `true`) |
+| `colorBy` | `slope` | `direction` (default: rises and falls) or `entity` |
+| `topN`, `rankOrder` | `bump` | lines for the top N of the last period (default 10); `desc` (default) ranks the highest value first, `asc` the lowest |
+| `maxAngle` | `radial_bar` | the sweep of the largest bar, in degrees (default 270) |
 | `heatmap` | `pivot_table` | colour each cell by its value (a Tableau highlight table) |
 
 Top N, running totals, moving averages, % change and contribution are applied
